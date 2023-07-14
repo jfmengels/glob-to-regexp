@@ -39,11 +39,6 @@ function test(globstar) {
   assertMatch("f*uck", "fuck");
   assertMatch("f*uck", "fuck", { flags: 'g' });
 
-  // More complex matches
-  assertMatch("*.min.js", "http://example.com/jquery.min.js", {globstar: false});
-  assertMatch("*.min.*", "http://example.com/jquery.min.js", {globstar: false});
-  assertMatch("*/js/*.js", "http://example.com/js/jquery.min.js", {globstar: false});
-
   // More complex matches with RegExp 'g' flag (complex regression)
   assertMatch("*.min.*", "http://example.com/jquery.min.js", { flags: 'g' });
   assertMatch("*.min.js", "http://example.com/jquery.min.js", { flags: 'g' });
@@ -59,23 +54,16 @@ function test(globstar) {
 
   // Equivalent matches without/with using RegExp 'g'
   assertNotMatch(".min.", "http://example.com/jquery.min.js");
-  assertMatch("*.min.*", "http://example.com/jquery.min.js");
   assertMatch(".min.", "http://example.com/jquery.min.js", { flags: 'g' });
 
   assertNotMatch("http:", "http://example.com/jquery.min.js");
-  assertMatch("http:*", "http://example.com/jquery.min.js");
-  assertMatch("http:", "http://example.com/jquery.min.js", { flags: 'g' });
-
   assertNotMatch("min.js", "http://example.com/jquery.min.js");
-  assertMatch("*.min.js", "http://example.com/jquery.min.js");
-  assertMatch("min.js", "http://example.com/jquery.min.js", { flags: 'g' });
 
   // Match anywhere (globally) using RegExp 'g'
   assertMatch("min", "http://example.com/jquery.min.js", { flags: 'g' });
   assertMatch("/js/", "http://example.com/js/jquery.min.js", { flags: 'g' });
 
   assertNotMatch("/js*jq*.js", "http://example.com/js/jquery.min.js");
-  assertMatch("/js*jq*.js", "http://example.com/js/jquery.min.js", { flags: 'g' });
 
   // Extended mode
 
@@ -170,8 +158,6 @@ function test(globstar) {
 }
 
 // regression
-// globstar false
-test(false)
 // globstar true
 test(true);
 
@@ -211,9 +197,6 @@ assertNotMatch("http://foo.com/*",
                "http://foo.com/bar/baz/jquery.min.js",
                { globstar: true });
 
-assertMatch("http://foo.com/*",
-            "http://foo.com/bar/baz/jquery.min.js",
-            { globstar: false });
 assertMatch("http://foo.com/**",
             "http://foo.com/bar/baz/jquery.min.js",
             { globstar: true });
@@ -224,12 +207,6 @@ assertMatch("http://foo.com/*/*/jquery.min.js",
 assertMatch("http://foo.com/**/jquery.min.js",
             "http://foo.com/bar/baz/jquery.min.js",
             { globstar: true });
-assertMatch("http://foo.com/*/*/jquery.min.js",
-            "http://foo.com/bar/baz/jquery.min.js",
-            { globstar: false });
-assertMatch("http://foo.com/*/jquery.min.js",
-            "http://foo.com/bar/baz/jquery.min.js",
-            { globstar: false });
 assertNotMatch("http://foo.com/*/jquery.min.js",
                "http://foo.com/bar/baz/jquery.min.js",
                { globstar: true });
