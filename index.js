@@ -83,6 +83,7 @@ module.exports = function (glob, opts) {
 
     default:
       reStr += c;
+      continue;
     }
   }
 
