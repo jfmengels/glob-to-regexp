@@ -12,7 +12,7 @@ module.exports = function (glob, opts) {
   // RegExp flags (eg "i" ) to pass in to RegExp constructor.
   var flags = opts && typeof( opts.flags ) === "string" ? opts.flags : "";
 
-  var reStr = help(str.split(""), 0, "", inGroup, undefined)
+  var reStr = help(str.split(""), 0, "", inGroup, true)
 
   // When regexp 'g' flag is specified don't
   // constrain the regular expression with ^ & $
@@ -23,7 +23,7 @@ module.exports = function (glob, opts) {
   return new RegExp(reStr, flags);
 };
 
-function help(str, i, reStr, inGroup, prevChar) {
+function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
   if (str.length === 0) {
     return undefined;
   }
@@ -37,7 +37,7 @@ function help(str, i, reStr, inGroup, prevChar) {
 
   switch (c) {
   case "/":
-    return help(str, 1, reStr + "\\/", inGroup, c);
+    return help(str, 1, reStr + "\\/", inGroup, true);
 
   case "$":
   case "^":
@@ -48,20 +48,20 @@ function help(str, i, reStr, inGroup, prevChar) {
   case "=":
   case "!":
   case "|":
-    return help(str, 1, reStr + "\\" + c, inGroup, c);
+    return help(str, 1, reStr + "\\" + c, inGroup, false);
 
   case "?":
-    return help(str, 1, reStr + ".", inGroup, c);
+    return help(str, 1, reStr + ".", inGroup, false);
 
   case "{":
-      return help(str, 1, reStr + "(", true, c);
+      return help(str, 1, reStr + "(", true, false);
 
   case "}":
-      return help(str, 1, reStr + ")", false, c);
+      return help(str, 1, reStr + ")", false, false);
 
   case ",":
     if (inGroup) {
-      return help(str, 1, reStr + "|", inGroup, c);
+      return help(str, 1, reStr + "|", inGroup, false);
     }
     return help(str, 1, reStr + "\\" + c, inGroup, c);
 
@@ -73,20 +73,20 @@ function help(str, i, reStr, inGroup, prevChar) {
 
     // determine if this is a globstar segment
     var isGlobstar = hasMultipleStars                   // multiple "*"'s
-      && (prevChar === "/" || prevChar === undefined)   // from the start of the segment
+      && isAtTheStartOfSegment                      // from the start of the segment
       && (nextChar === "/" || nextChar === undefined)   // to the end of the segment
 
     if (isGlobstar) {
       // reStr: it's a globstar, so match zero or more path segments
       // newI: move over the "/"
-      return help(newStr, 2, reStr + "((?:[^/]*(?:\/|$))*)", inGroup, nextChar);
+      return help(newStr, 2, reStr + "((?:[^/]*(?:\/|$))*)", inGroup, true);
     } else {
       // it's not a globstar, so only match one path segment
-      return help(newStr, 1, reStr + "([^/]*)", inGroup, nextChar);
+      return help(newStr, 1, reStr + "([^/]*)", inGroup, false);
     }
 
   default:
-    return help(str, 1, reStr + c, inGroup, c);
+    return help(str, 1, reStr + c, inGroup, false);
   }
 }
 
