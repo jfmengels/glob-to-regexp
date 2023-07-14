@@ -69,7 +69,7 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
     var {newI, hasMultipleStars, newStr} = moveOverConsectutiveStars(str);
     // Move over all consecutive "*"'s.
     // Also store the previous and next characters
-    var nextChar = str[newI + 1];
+    var nextChar = newStr[1];
 
     // determine if this is a globstar segment
     var isGlobstar = hasMultipleStars                   // multiple "*"'s
