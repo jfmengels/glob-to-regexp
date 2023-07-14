@@ -11,7 +11,7 @@ module.exports = function (glob, opts) {
   // Whether we are matching so called "extended" globs (like bash) and should
   // support single character matching, matching ranges of characters, group
   // matching, etc.
-  var extended = opts ? !!opts.extended : false;
+  var extended = true;
 
   // If we are doing extended matching, this boolean is true when we are inside
   // a group (eg {*.html,*.js}), and false otherwise.

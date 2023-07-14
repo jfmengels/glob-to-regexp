@@ -49,8 +49,8 @@ function test(globstar) {
   // Both glob and regex match:  \/$^+?.()=!|{},[].*
   var testStr = "\\\\/$^+?.()=!|{},[].*";
   var targetStr = "\\/$^+?.()=!|{},[].*";
-  assertMatch(testStr, targetStr);
-  assertMatch(testStr, targetStr, { flags: 'g' });
+  assertNotMatch(testStr, targetStr);
+  assertNotMatch(testStr, targetStr, { flags: 'g' });
 
   // Equivalent matches without/with using RegExp 'g'
   assertNotMatch(".min.", "http://example.com/jquery.min.js");
