@@ -31,6 +31,8 @@ function help(str, i, reStr, inGroup) {
 
   switch (c) {
   case "/":
+    return help(str, i + 1, reStr + "\\/", inGroup, c);
+
   case "$":
   case "^":
   case "+":
