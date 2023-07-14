@@ -22,7 +22,7 @@ module.exports = function (glob, opts) {
   // these will not '/foo/bar/baz', '/foo/bar/baz.txt'
   // Lastely, when globstar is _true_, '/foo/**' is equivelant to '/foo/*' when
   // globstar is _false_
-  var globstar = opts ? !!opts.globstar : false;
+  var globstar = true;
 
   // If we are doing extended matching, this boolean is true when we are inside
   // a group (eg {*.html,*.js}), and false otherwise.
