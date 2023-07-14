@@ -65,7 +65,7 @@ function help(str, reStr, inGroup, isAtTheStartOfSegment) {
     return help(rest, reStr + "\\" + c, inGroup, c);
 
   case "*":
-    var {hasMultipleStars, newStr} = moveOverConsecutiveStars(str);
+    var {hasMultipleStars, newStr} = moveOverConsecutiveStars(rest);
     // Move over all consecutive "*"'s.
     // Also store the previous and next characters
     var nextChar = newStr[1];
@@ -96,7 +96,7 @@ const starStarReplacement = "((?:[^/]*(?:\/|$))*)";
 function moveOverConsecutiveStars(str) {
   var hasMultipleStars = false;
   var i = 0;
-  while(str[i + 1] === "*") {
+  while(str[i] === "*") {
     hasMultipleStars = true;
     i++;
   }
