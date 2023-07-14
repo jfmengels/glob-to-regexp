@@ -31,29 +31,29 @@ module.exports = function (glob, opts) {
     case "!":
     case "|":
       reStr += "\\" + c;
-      break;
+      continue;
 
     case "?":
       reStr += ".";
-      break;
+      continue;
 
     case "{":
         inGroup = true;
         reStr += "(";
-        break;
+        continue;
 
     case "}":
         inGroup = false;
         reStr += ")";
-        break;
+        continue;
 
     case ",":
       if (inGroup) {
         reStr += "|";
-	      break;
+	      continue;
       }
       reStr += "\\" + c;
-      break;
+      continue;
 
     case "*":
       // Move over all consecutive "*"'s.
@@ -79,7 +79,7 @@ module.exports = function (glob, opts) {
         // it's not a globstar, so only match one path segment
         reStr += "([^/]*)";
       }
-      break;
+      continue;
 
     default:
       reStr += c;
