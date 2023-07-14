@@ -29,13 +29,14 @@ function help(str, reStr, inGroup, isAtTheStartOfSegment) {
   }
 
   var c = str[0];
+  var rest = str.slice(1);
   if (c === undefined) {
     return reStr;
   }
 
   switch (c) {
   case "/":
-    return help(str.slice(1), reStr + "\\/", inGroup, true);
+    return help(rest, reStr + "\\/", inGroup, true);
 
   case "$":
   case "^":
@@ -46,22 +47,22 @@ function help(str, reStr, inGroup, isAtTheStartOfSegment) {
   case "=":
   case "!":
   case "|":
-    return help(str.slice(1), reStr + "\\" + c, inGroup, false);
+    return help(rest, reStr + "\\" + c, inGroup, false);
 
   case "?":
-    return help(str.slice(1), reStr + ".", inGroup, false);
+    return help(rest, reStr + ".", inGroup, false);
 
   case "{":
-    return help(str.slice(1), reStr + "(", true, false);
+    return help(rest, reStr + "(", true, false);
 
   case "}":
-    return help(str.slice(1), reStr + ")", false, false);
+    return help(rest, reStr + ")", false, false);
 
   case ",":
     if (inGroup) {
-      return help(str.slice(1), reStr + "|", inGroup, false);
+      return help(rest, reStr + "|", inGroup, false);
     }
-    return help(str.slice(1), reStr + "\\" + c, inGroup, c);
+    return help(rest, reStr + "\\" + c, inGroup, c);
 
   case "*":
     var {hasMultipleStars, newStr} = moveOverConsecutiveStars(str);
@@ -86,7 +87,7 @@ function help(str, reStr, inGroup, isAtTheStartOfSegment) {
     }
 
   default:
-    return help(str.slice(1), reStr + c, inGroup, false);
+    return help(rest, reStr + c, inGroup, false);
   }
 }
 
