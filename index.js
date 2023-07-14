@@ -84,23 +84,18 @@ module.exports = function (glob, opts) {
       }
       var nextChar = str[i + 1];
 
-      if (!true) {
-        // globstar is disabled, so treat any number of "*" as one
-        reStr += ".*";
-      } else {
-        // globstar is enabled, so determine if this is a globstar segment
-        var isGlobstar = starCount > 1                      // multiple "*"'s
-          && (prevChar === "/" || prevChar === undefined)   // from the start of the segment
-          && (nextChar === "/" || nextChar === undefined)   // to the end of the segment
+      // determine if this is a globstar segment
+      var isGlobstar = starCount > 1                      // multiple "*"'s
+        && (prevChar === "/" || prevChar === undefined)   // from the start of the segment
+        && (nextChar === "/" || nextChar === undefined)   // to the end of the segment
 
-        if (isGlobstar) {
-          // it's a globstar, so match zero or more path segments
-          reStr += "((?:[^/]*(?:\/|$))*)";
-          i++; // move over the "/"
-        } else {
-          // it's not a globstar, so only match one path segment
-          reStr += "([^/]*)";
-        }
+      if (isGlobstar) {
+        // it's a globstar, so match zero or more path segments
+        reStr += "((?:[^/]*(?:\/|$))*)";
+        i++; // move over the "/"
+      } else {
+        // it's not a globstar, so only match one path segment
+        reStr += "([^/]*)";
       }
       break;
 
