@@ -54,10 +54,10 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
     return help(str, 1, reStr + ".", inGroup, false);
 
   case "{":
-      return help(str, 1, reStr + "(", true, false);
+    return help(str, 1, reStr + "(", true, false);
 
   case "}":
-      return help(str, 1, reStr + ")", false, false);
+    return help(str, 1, reStr + ")", false, false);
 
   case ",":
     if (inGroup) {
