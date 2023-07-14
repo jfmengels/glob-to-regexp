@@ -37,7 +37,7 @@ function help(str, i, reStr, inGroup, prevChar) {
 
   switch (c) {
   case "/":
-    return help(str, i + 1, reStr + "\\/", inGroup, c);
+    return help(str, 1, reStr + "\\/", inGroup, c);
 
   case "$":
   case "^":
@@ -48,22 +48,22 @@ function help(str, i, reStr, inGroup, prevChar) {
   case "=":
   case "!":
   case "|":
-    return help(str, i + 1, reStr + "\\" + c, inGroup, c);
+    return help(str, 1, reStr + "\\" + c, inGroup, c);
 
   case "?":
-    return help(str, i + 1, reStr + ".", inGroup, c);
+    return help(str, 1, reStr + ".", inGroup, c);
 
   case "{":
-      return help(str, i + 1, reStr + "(", true, c);
+      return help(str, 1, reStr + "(", true, c);
 
   case "}":
-      return help(str, i + 1, reStr + ")", false, c);
+      return help(str, 1, reStr + ")", false, c);
 
   case ",":
     if (inGroup) {
-      return help(str, i + 1, reStr + "|", inGroup, c);
+      return help(str, 1, reStr + "|", inGroup, c);
     }
-    return help(str, i + 1, reStr + "\\" + c, inGroup, c);
+    return help(str, 1, reStr + "\\" + c, inGroup, c);
 
   case "*":
     // Move over all consecutive "*"'s.
@@ -90,6 +90,6 @@ function help(str, i, reStr, inGroup, prevChar) {
     }
 
   default:
-    return help(str, i + 1, reStr + c, inGroup, c);
+    return help(str, 1, reStr + c, inGroup, c);
   }
 }
