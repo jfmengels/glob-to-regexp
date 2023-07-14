@@ -80,7 +80,7 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
       }
       else {
         // it's not a globstar, so only match one path segment
-        return help(newStr, 1, reStr + "([^/]*)", inGroup, false);
+        return help(newStr.slice(1), 0, reStr + "([^/]*)", inGroup, false);
       }
     } else {
       // it's not a globstar, so only match one path segment
