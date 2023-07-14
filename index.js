@@ -27,6 +27,8 @@ function help(str, i, reStr, inGroup, prevChar) {
   if (str.length === 0) {
     return undefined;
   }
+  str = str.slice(i);
+  i = 0;
 
   var c = str[i];
   if (c === undefined) {
