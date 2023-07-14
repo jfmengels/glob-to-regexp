@@ -25,7 +25,7 @@ module.exports = function (glob, opts) {
 
 function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
   if (str.length === 0) {
-    return undefined;
+    return reStr;
   }
   str = str.slice(i);
   i = 0;
