@@ -76,7 +76,7 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
         return reStr + starStarReplacement;
       }
       else if (nextChar === "/") {
-        return help(newStr, 2, reStr + starStarReplacement, inGroup, true);
+        return help(newStr.slice(2), 0, reStr + starStarReplacement, inGroup, true);
       }
       else {
         // it's not a globstar, so only match one path segment
