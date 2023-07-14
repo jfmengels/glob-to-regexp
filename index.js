@@ -71,15 +71,17 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
     // Also store the previous and next characters
     var nextChar = newStr[1];
 
-    // determine if this is a globstar segment
-    var isGlobstar = hasMultipleStars                   // multiple "*"'s
-      && isAtTheStartOfSegment                      // from the start of the segment
-      && (nextChar === "/" || nextChar === undefined)   // to the end of the segment
-
-    if (isGlobstar) {
-      // reStr: it's a globstar, so match zero or more path segments
-      // newI: move over the "/"
-      return help(newStr, 2, reStr + "((?:[^/]*(?:\/|$))*)", inGroup, true);
+    if (hasMultipleStars && isAtTheStartOfSegment) {
+      if (nextChar === undefined) {
+        return reStr + starStarReplacement;
+      }
+      else if (nextChar === "/") {
+        return help(newStr, 2, reStr + starStarReplacement, inGroup, true);
+      }
+      else {
+        // it's not a globstar, so only match one path segment
+        return help(newStr, 1, reStr + "([^/]*)", inGroup, false);
+      }
     } else {
       // it's not a globstar, so only match one path segment
       return help(newStr, 1, reStr + "([^/]*)", inGroup, false);
@@ -89,6 +91,8 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
     return help(str, 1, reStr + c, inGroup, false);
   }
 }
+
+const starStarReplacement = "((?:[^/]*(?:\/|$))*)";
 
 function moveOverConsectutiveStars(str) {
   var hasMultipleStars = false;
