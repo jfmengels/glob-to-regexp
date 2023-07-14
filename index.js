@@ -24,10 +24,10 @@ module.exports = function (glob, opts) {
 };
 
 function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
+  str = str.slice(i);
   if (str.length === 0) {
     return reStr;
   }
-  str = str.slice(i);
   i = 0;
 
   var c = str[i];
