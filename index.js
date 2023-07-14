@@ -41,34 +41,34 @@ module.exports = function (glob, opts) {
     case "?":
       if (extended) {
         reStr += ".";
-	    break;
+	      break;
       }
 
     case "[":
     case "]":
       if (extended) {
         reStr += c;
-	    break;
+	      break;
       }
 
     case "{":
       if (extended) {
         inGroup = true;
-	    reStr += "(";
-	    break;
+        reStr += "(";
+        break;
       }
 
     case "}":
       if (extended) {
         inGroup = false;
-	    reStr += ")";
-	    break;
+        reStr += ")";
+        break;
       }
 
     case ",":
       if (inGroup) {
         reStr += "|";
-	    break;
+	      break;
       }
       reStr += "\\" + c;
       break;
