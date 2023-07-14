@@ -40,29 +40,29 @@ function help(str, i, reStr, inGroup) {
   case "=":
   case "!":
   case "|":
-    reStr += "\\" + c;
+    reStr = reStr + "\\" + c;
     return help(str, i + 1, reStr, inGroup);
 
   case "?":
-    reStr += ".";
+    reStr = reStr + ".";
     return help(str, i + 1, reStr, inGroup);
 
   case "{":
       inGroup = true;
-      reStr += "(";
+      reStr = reStr + "(";
       return help(str, i + 1, reStr, inGroup);
 
   case "}":
       inGroup = false;
-      reStr += ")";
+      reStr = reStr + ")";
       return help(str, i + 1, reStr, inGroup);
 
   case ",":
     if (inGroup) {
-      reStr += "|";
+      reStr = reStr + "|";
       return help(str, i + 1, reStr, inGroup);
     }
-    reStr += "\\" + c;
+    reStr = reStr + "\\" + c;
     return help(str, i + 1, reStr, inGroup);
 
   case "*":
@@ -83,16 +83,16 @@ function help(str, i, reStr, inGroup) {
 
     if (isGlobstar) {
       // it's a globstar, so match zero or more path segments
-      reStr += "((?:[^/]*(?:\/|$))*)";
+      reStr = reStr + "((?:[^/]*(?:\/|$))*)";
       i++; // move over the "/"
     } else {
       // it's not a globstar, so only match one path segment
-      reStr += "([^/]*)";
+      reStr = reStr + "([^/]*)";
     }
     return help(str, i + 1, reStr, inGroup);
 
   default:
-    reStr += c;
+    reStr = reStr + c;
     return help(str, i + 1, reStr, inGroup);
   }
 }
