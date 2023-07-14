@@ -40,30 +40,24 @@ function help(str, i, reStr, inGroup) {
   case "=":
   case "!":
   case "|":
-    reStr = reStr + "\\" + c;
-    return help(str, i + 1, reStr, inGroup);
+    return help(str, i + 1, reStr + "\\" + c, inGroup);
 
   case "?":
-    reStr = reStr + ".";
-    return help(str, i + 1, reStr, inGroup);
+    return help(str, i + 1, reStr + ".", inGroup);
 
   case "{":
       inGroup = true;
-      reStr = reStr + "(";
-      return help(str, i + 1, reStr, inGroup);
+      return help(str, i + 1, reStr + "(", inGroup);
 
   case "}":
       inGroup = false;
-      reStr = reStr + ")";
-      return help(str, i + 1, reStr, inGroup);
+      return help(str, i + 1, reStr + ")", inGroup);
 
   case ",":
     if (inGroup) {
-      reStr = reStr + "|";
-      return help(str, i + 1, reStr, inGroup);
+      return help(str, i + 1, reStr + "|", inGroup);
     }
-    reStr = reStr + "\\" + c;
-    return help(str, i + 1, reStr, inGroup);
+    return help(str, i + 1, reStr + "\\" + c, inGroup);
 
   case "*":
     // Move over all consecutive "*"'s.
@@ -92,7 +86,6 @@ function help(str, i, reStr, inGroup) {
     return help(str, i + 1, reStr, inGroup);
 
   default:
-    reStr = reStr + c;
-    return help(str, i + 1, reStr, inGroup);
+    return help(str, i + 1, reStr + c, inGroup);
   }
 }
