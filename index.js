@@ -66,14 +66,10 @@ function help(str, i, reStr, inGroup, prevChar) {
     return help(str, 1, reStr + "\\" + c, inGroup, c);
 
   case "*":
+    var {newI, hasMultipleStars} = moveOverConsectutiveStars(str);
     // Move over all consecutive "*"'s.
     // Also store the previous and next characters
-    var hasMultipleStars = false;
-    while(str[i + 1] === "*") {
-      hasMultipleStars = true;
-      i++;
-    }
-    var nextChar = str[i + 1];
+    var nextChar = str[newI + 1];
 
     // determine if this is a globstar segment
     var isGlobstar = hasMultipleStars                   // multiple "*"'s
@@ -82,14 +78,24 @@ function help(str, i, reStr, inGroup, prevChar) {
 
     if (isGlobstar) {
       // reStr: it's a globstar, so match zero or more path segments
-      // i: move over the "/"
-      return help(str, i + 2, reStr + "((?:[^/]*(?:\/|$))*)", inGroup, str[i + 1]);
+      // newI: move over the "/"
+      return help(str, newI + 2, reStr + "((?:[^/]*(?:\/|$))*)", inGroup, str[newI + 1]);
     } else {
       // it's not a globstar, so only match one path segment
-      return help(str, i + 1, reStr + "([^/]*)", inGroup, str[i]);
+      return help(str, newI + 1, reStr + "([^/]*)", inGroup, str[i]);
     }
 
   default:
     return help(str, 1, reStr + c, inGroup, c);
   }
+}
+
+function moveOverConsectutiveStars(str) {
+  var hasMultipleStars = false;
+  var i = 0;
+  while(str[i + 1] === "*") {
+    hasMultipleStars = true;
+    i++;
+  }
+  return { newI: i, hasMultipleStars };
 }
