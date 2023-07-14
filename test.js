@@ -162,7 +162,7 @@ function test(globstar) {
 // regression
 // globstar true
 test(true);
-return;
+
 // globstar specific tests
 assertMatch("/foo/*", "/foo/bar.txt", {globstar: true });
 assertMatch("/foo/**", "/foo/baz.txt", {globstar: true });
