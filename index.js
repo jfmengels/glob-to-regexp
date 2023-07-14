@@ -66,7 +66,7 @@ function help(str, i, reStr, inGroup, prevChar) {
     return help(str, 1, reStr + "\\" + c, inGroup, c);
 
   case "*":
-    var {newI, hasMultipleStars} = moveOverConsectutiveStars(str);
+    var {newI, hasMultipleStars, newStr} = moveOverConsectutiveStars(str);
     // Move over all consecutive "*"'s.
     // Also store the previous and next characters
     var nextChar = str[newI + 1];
@@ -97,5 +97,5 @@ function moveOverConsectutiveStars(str) {
     hasMultipleStars = true;
     i++;
   }
-  return { newI: i, hasMultipleStars };
+  return { newI: i, hasMultipleStars, newStr: str.slice(i) };
 }
