@@ -24,6 +24,10 @@ module.exports = function (glob, opts) {
 };
 
 function help(str, i, reStr, inGroup, prevChar) {
+  if (str.length === 0) {
+    return undefined;
+  }
+
   var c = str[i];
   if (c === undefined) {
     return reStr;
