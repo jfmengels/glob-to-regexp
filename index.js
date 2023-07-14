@@ -8,11 +8,6 @@ module.exports = function (glob, opts) {
   // The regexp we are building, as a string.
   var reStr = "";
 
-  // Whether we are matching so called "extended" globs (like bash) and should
-  // support single character matching, matching ranges of characters, group
-  // matching, etc.
-  var extended = true;
-
   // If we are doing extended matching, this boolean is true when we are inside
   // a group (eg {*.html,*.js}), and false otherwise.
   var inGroup = false;
@@ -39,31 +34,23 @@ module.exports = function (glob, opts) {
       break;
 
     case "?":
-      if (extended) {
-        reStr += ".";
-	      break;
-      }
+      reStr += ".";
+      break;
 
     case "[":
     case "]":
-      if (extended) {
         reStr += c;
 	      break;
-      }
 
     case "{":
-      if (extended) {
         inGroup = true;
         reStr += "(";
         break;
-      }
 
     case "}":
-      if (extended) {
         inGroup = false;
         reStr += ")";
         break;
-      }
 
     case ",":
       if (inGroup) {
