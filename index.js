@@ -100,5 +100,6 @@ function moveOverConsecutiveStars(str) {
     hasMultipleStars = true;
     i++;
   }
+  console.log({str, i, newStr: str.slice(i)})
   return { hasMultipleStars, newStr: str.slice(i) };
 }
