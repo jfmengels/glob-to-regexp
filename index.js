@@ -76,14 +76,13 @@ function help(str, i, reStr, inGroup) {
       && (nextChar === "/" || nextChar === undefined)   // to the end of the segment
 
     if (isGlobstar) {
-      // it's a globstar, so match zero or more path segments
-      reStr = reStr + "((?:[^/]*(?:\/|$))*)";
-      i++; // move over the "/"
+      // reStr: it's a globstar, so match zero or more path segments
+      // i: move over the "/"
+      return help(str, i + 2, reStr + "((?:[^/]*(?:\/|$))*)", inGroup);
     } else {
       // it's not a globstar, so only match one path segment
-      reStr = reStr + "([^/]*)";
+      return help(str, i + 1, reStr + "([^/]*)", inGroup);
     }
-    return help(str, i + 1, reStr, inGroup);
 
   default:
     return help(str, i + 1, reStr + c, inGroup);
