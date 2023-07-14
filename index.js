@@ -46,12 +46,10 @@ function help(str, i, reStr, inGroup) {
     return help(str, i + 1, reStr + ".", inGroup);
 
   case "{":
-      inGroup = true;
-      return help(str, i + 1, reStr + "(", inGroup);
+      return help(str, i + 1, reStr + "(", true);
 
   case "}":
-      inGroup = false;
-      return help(str, i + 1, reStr + ")", inGroup);
+      return help(str, i + 1, reStr + ")", false);
 
   case ",":
     if (inGroup) {
