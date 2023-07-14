@@ -12,7 +12,7 @@ module.exports = function (glob, opts) {
   // RegExp flags (eg "i" ) to pass in to RegExp constructor.
   var flags = opts && typeof( opts.flags ) === "string" ? opts.flags : "";
 
-  var reStr = help(str, 0, "", inGroup, undefined)
+  var reStr = help(str.split(""), 0, "", inGroup, undefined)
 
   // When regexp 'g' flag is specified don't
   // constrain the regular expression with ^ & $
