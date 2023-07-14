@@ -3,12 +3,14 @@ var assert = require("assert");
 
 function assertMatch(glob, str, opts) {
   //console.log(glob, globToRegexp(glob, opts));
-  assert.ok(globToRegexp(glob, opts).test(str));
+  var regex = globToRegexp(glob, opts);
+  assert.ok(regex.test(str), str + ' does not match ' + glob + '\nRegex is: ' + regex + '\n');
 }
 
 function assertNotMatch(glob, str, opts) {
   //console.log(glob, globToRegexp(glob, opts));
-  assert.equal(false, globToRegexp(glob, opts).test(str));
+  var regex = globToRegexp(glob, opts);
+  assert.equal(false, regex.test(str), str + ' matches ' + glob + " but shouldn't\nRegex is:" + regex + '\n');
 }
 
 function test(globstar) {
