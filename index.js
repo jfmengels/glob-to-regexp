@@ -37,11 +37,6 @@ module.exports = function (glob, opts) {
       reStr += ".";
       break;
 
-    case "[":
-    case "]":
-        reStr += c;
-	      break;
-
     case "{":
         inGroup = true;
         reStr += "(";
