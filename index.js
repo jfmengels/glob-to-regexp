@@ -77,15 +77,15 @@ module.exports = function (glob, opts) {
       // Move over all consecutive "*"'s.
       // Also store the previous and next characters
       var prevChar = str[i - 1];
-      var starCount = 1;
+      var hasMultipleStars = false;
       while(str[i + 1] === "*") {
-        starCount++;
+        hasMultipleStars = true;
         i++;
       }
       var nextChar = str[i + 1];
 
       // determine if this is a globstar segment
-      var isGlobstar = starCount > 1                      // multiple "*"'s
+      var isGlobstar = hasMultipleStars                   // multiple "*"'s
         && (prevChar === "/" || prevChar === undefined)   // from the start of the segment
         && (nextChar === "/" || nextChar === undefined)   // to the end of the segment
 
