@@ -14,6 +14,7 @@ function assertNotMatch(glob, str, opts) {
 }
 
 function test(globstar) {
+  assertMatch("foo{bar,b*z}", "foobuzz", { extended: true });
   // Match everything
   assertMatch("*", "foo");
   assertMatch("*", "foo", { flags: 'g' });
