@@ -37,7 +37,7 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
 
   switch (c) {
   case "/":
-    return help(str, 1, reStr + "\\/", inGroup, true);
+    return help(str.slice(1), 0, reStr + "\\/", inGroup, true);
 
   case "$":
   case "^":
@@ -48,7 +48,7 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
   case "=":
   case "!":
   case "|":
-    return help(str, 1, reStr + "\\" + c, inGroup, false);
+    return help(str.slice(1), 0, reStr + "\\" + c, inGroup, false);
 
   case "?":
     return help(str, 1, reStr + ".", inGroup, false);
