@@ -12,7 +12,7 @@ module.exports = function (glob, opts) {
   // RegExp flags (eg "i" ) to pass in to RegExp constructor.
   var flags = opts && typeof( opts.flags ) === "string" ? opts.flags : "";
 
-  var reStr = help(str.split(""), 0, "", inGroup, true)
+  var reStr = help(str.split(""), "", inGroup, true)
 
   // When regexp 'g' flag is specified don't
   // constrain the regular expression with ^ & $
@@ -23,21 +23,19 @@ module.exports = function (glob, opts) {
   return new RegExp(reStr, flags);
 };
 
-function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
-  str = str.slice(i);
+function help(str, reStr, inGroup, isAtTheStartOfSegment) {
   if (str.length === 0) {
     return reStr;
   }
-  i = 0;
 
-  var c = str[i];
+  var c = str[0];
   if (c === undefined) {
     return reStr;
   }
 
   switch (c) {
   case "/":
-    return help(str.slice(1), 0, reStr + "\\/", inGroup, true);
+    return help(str.slice(1), reStr + "\\/", inGroup, true);
 
   case "$":
   case "^":
@@ -48,22 +46,22 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
   case "=":
   case "!":
   case "|":
-    return help(str.slice(1), 0, reStr + "\\" + c, inGroup, false);
+    return help(str.slice(1), reStr + "\\" + c, inGroup, false);
 
   case "?":
-    return help(str.slice(1), 0, reStr + ".", inGroup, false);
+    return help(str.slice(1), reStr + ".", inGroup, false);
 
   case "{":
-    return help(str.slice(1), 0, reStr + "(", true, false);
+    return help(str.slice(1), reStr + "(", true, false);
 
   case "}":
-    return help(str.slice(1), 0, reStr + ")", false, false);
+    return help(str.slice(1), reStr + ")", false, false);
 
   case ",":
     if (inGroup) {
-      return help(str.slice(1), 0, reStr + "|", inGroup, false);
+      return help(str.slice(1), reStr + "|", inGroup, false);
     }
-    return help(str.slice(1), 0, reStr + "\\" + c, inGroup, c);
+    return help(str.slice(1), reStr + "\\" + c, inGroup, c);
 
   case "*":
     var {hasMultipleStars, newStr} = moveOverConsectutiveStars(str);
@@ -76,19 +74,19 @@ function help(str, i, reStr, inGroup, isAtTheStartOfSegment) {
         return reStr + starStarReplacement;
       }
       else if (nextChar === "/") {
-        return help(newStr.slice(2), 0, reStr + starStarReplacement, inGroup, true);
+        return help(newStr.slice(2), reStr + starStarReplacement, inGroup, true);
       }
       else {
         // it's not a globstar, so only match one path segment
-        return help(newStr.slice(1), 0, reStr + "([^/]*)", inGroup, false);
+        return help(newStr.slice(1), reStr + "([^/]*)", inGroup, false);
       }
     } else {
       // it's not a globstar, so only match one path segment
-      return help(newStr.slice(1), 0, reStr + "([^/]*)", inGroup, false);
+      return help(newStr.slice(1), reStr + "([^/]*)", inGroup, false);
     }
 
   default:
-    return help(str.slice(1), 0, reStr + c, inGroup, false);
+    return help(str.slice(1), reStr + c, inGroup, false);
   }
 }
 
